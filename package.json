@@ -1,5 +1,5 @@
 {
-  "name": "node-server",
+  "name": "node",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -10,8 +10,14 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
+    "faker": "^4.1.0",
+    "fs": "0.0.1-security",
     "jade": "~1.11.0",
+    "method-override": "^2.3.9",
+    "mongoose": "^4.11.5",
     "morgan": "~1.8.1",
+    "node-xlsx": "^0.10.0",
+    "passport": "^0.3.2",
     "serve-favicon": "~2.4.2"
   }
 }

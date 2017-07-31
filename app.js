@@ -5,8 +5,15 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+//myWrite start
+var passport = require('passport');
+var methodOverride = require('method-override');
+var faker = require('faker/locale/zh_CN');
+//myWrite End
+
 var index = require('./routes/index');
 var users = require('./routes/users');
+var test = require('./routes/test');
 
 var app = express();
 
@@ -21,9 +28,25 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+//myWrite start
+app.use(passport.initialize());
+app.use(methodOverride());
+app.all('*', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, platform_type");
+    res.header("X-Powered-By", ' 3.2.1');
+    res.header("Content-Type", "application/json;charset=utf-8");
+
+    next();
+});
+//myWrite End
+
+app.use('/users', users);
 
 app.use('/', index);
-app.use('/users', users);
+app.use('/test', test);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -43,34 +66,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(8100,function(){
-    console.log("Server Start!");
-});
-
 module.exports = app;
-
-var MongoClient = require('mongodb').MongoClient;
-var DB_CONN_STR = 'mongodb://localhost:27017/runoob';
-
-var insertData = function(db, callback) {
-    //连接到表
-    var collection = db.collection('table1');
-    //插入数据
-    var data = [{"name":'ding',"age":21},{"name":'cun',"age":22}];
-    collection.insert(data, function(err, result) {
-        if(err)
-        {
-            console.log('Error:'+ err);
-            return;
-        }
-        callback(result);
-    });
-}
-
-MongoClient.connect(DB_CONN_STR, function(err, db) {
-    console.log("连接成功！");
-    insertData(db, function(result) {
-        console.log(result);
-        db.close();
-    });
-});
