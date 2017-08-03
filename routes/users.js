@@ -6,52 +6,106 @@ var User = require("./schema/user.js");          //schema User
 /**
  * 插入用户信息
  */
-router.post('/postuser', function(req, res, next) {
+router.post('/useradd', function (req, res, next) {
     var data = {
-        username: 'cunkuan.ding',                 //用户账号
-        userpwd: 'no123456',                      //密码
-        userage: 27,                              //年龄
-        logindate: new Date()                     //最近登录时间
+        username: req.body.username,                          //用户账号
+        userpwd: req.body.userpwd,                            //密码
+        userage: req.body.userage,                            //年龄
+        userphone: req.body.userphone,                        //手机号
+        user_e_mail: req.body.user_e_mail,                    //邮箱
+        userbirthday: req.body.userbirthday,                  //生日
+        usergender: req.body.usergender,                      //性别
+        useradress: req.body.useradress,                      //地址
+        userhead: req.body.userhead,                          //头像
     };
     var user = new User(data);
-    user.save(function (err, resData) {
+    user.save(function (err, result) {
         if (err) {
             res.json({
-                code: '0',
-                msg:"Error:" + err
+                code: '110',
+                msg: "Error:" + err
             });
-        }
-        else {
+        } else {
             res.json({
-                code: '10100',
-                data: resData
+                code: '100',
+                data: result
             });
         }
     });
 });
 
-
-
 /**
- * 条件用户信息
+ * 更新编辑用户信息
  */
-router.get('/getuserlist', function(req, res, next) {
+router.put('/userput', function (req, res, next) {
+    var id = req.query.id;
+    console.log(id);
     var data = {
-        username: 'cunkuan.dng'
+        username: req.body.username,                          //用户账号
+        userpwd: req.body.userpwd,                            //密码
+        userage: req.body.userage,                            //年龄
+        userphone: req.body.userphone,                        //手机号
+        user_e_mail: req.body.user_e_mail,                    //邮箱
+        userbirthday: req.body.userbirthday,                  //生日
+        usergender: req.body.usergender,                      //性别
+        useradress: req.body.useradress,                      //地址
+        userhead: req.body.userhead,                          //头像
     };
-    User.find(data, function(err, resData){
+    User.update({_id: id},{$set:data},function (err, result) {
         if (err) {
-            console.log("Error:" + err);
-        }
-        else {
             res.json({
-                code: '10100',
-                data: resData
+                code: '110',
+                msg: "Error:" + err
+            });
+        } else {
+            res.json({
+                code: '100',
+                data: result
             });
         }
-    })
+    });
 });
 
+/**
+ * 删除用户信息
+ */
+router.delete('/userdelete', function (req, res, next) {
+    var id = req.query.id;
+    User.remove({_id: id},function (err, result) {
+        if (err) {
+            res.json({
+                code: '110',
+                msg: "Error:" + err
+            });
+        } else {
+            res.json({
+                code: '100',
+                data: result
+            });
+        }
+    });
+});
+
+/**
+ * 全部分页查询用户列表
+ */
+router.get('/userlist', function (req, res, next) {
+    var page = parseInt(req.query.page);
+    var size = parseInt(req.query.size);
+    User.find({}).skip(page * size).limit(size).exec(function(err,result){
+        if (err) {
+            res.json({
+                code: '110',
+                msg: "Error:" + err
+            });
+        } else {
+            res.json({
+                code: '100',
+                data: result
+            });
+        }
+    });
+});
 
 
 module.exports = router;
