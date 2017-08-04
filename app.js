@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 //myWrite start
+var session = require('express-session');
+var flash = require('express-flash');
 var passport = require('passport');
 var methodOverride = require('method-override');
 var faker = require('faker/locale/zh_CN');
@@ -28,8 +30,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 //myWrite start
+
+app.use(session({secret: 'dingcunkuan', cookie: { maxAge: 60000 }}));
 app.use(passport.initialize());
+app.use(passport.session());
+require('./routes/loginauth');
+
 app.use(methodOverride());
 app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -37,10 +45,11 @@ app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, platform_type");
     res.header("X-Powered-By", ' 3.2.1');
     res.header("Content-Type", "application/json;charset=utf-8");
-
     next();
 });
 //myWrite End
+
+
 
 app.use('/users', users);
 

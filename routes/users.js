@@ -1,7 +1,9 @@
 var express = require('express');
+var passport = require('passport');
 var router = express.Router();
 
 var User = require("./schema/user.js");          //schema User
+
 
 /**
  * 插入用户信息
@@ -69,7 +71,7 @@ router.put('/userput', function (req, res, next) {
 /**
  * 删除用户信息
  */
-router.delete('/userdelete', function (req, res, next) {
+router.delete('/userdelete', passport.authenticate('local'), function (req, res, next) {
     var id = req.query.id;
     User.remove({_id: id},function (err, result) {
         if (err) {
@@ -85,6 +87,30 @@ router.delete('/userdelete', function (req, res, next) {
         }
     });
 });
+
+
+
+
+//
+// /**
+//  * 删除用户信息
+//  */
+// router.delete('/userdelete', function (req, res, next) {
+//     var id = req.query.id;
+//     User.remove({_id: id},function (err, result) {
+//         if (err) {
+//             res.json({
+//                 code: '110',
+//                 msg: "Error:" + err
+//             });
+//         } else {
+//             res.json({
+//                 code: '100',
+//                 data: result
+//             });
+//         }
+//     });
+// });
 
 /**
  * 全部分页查询用户列表
