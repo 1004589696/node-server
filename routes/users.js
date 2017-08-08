@@ -8,17 +8,10 @@ var User = require("./schema/user.js");          //schema User
 /**
  * 插入用户信息
  */
-router.post('/useradd', function (req, res, next) {
+router.post('/useradd', passport.authenticate( 'local'), function (req, res, next) {
     var data = {
         username: req.body.username,                          //用户账号
-        userpwd: req.body.userpwd,                            //密码
-        userage: req.body.userage,                            //年龄
-        userphone: req.body.userphone,                        //手机号
-        user_e_mail: req.body.user_e_mail,                    //邮箱
-        userbirthday: req.body.userbirthday,                  //生日
-        usergender: req.body.usergender,                      //性别
-        useradress: req.body.useradress,                      //地址
-        userhead: req.body.userhead,                          //头像
+        password: req.body.password                            //密码
     };
     var user = new User(data);
     user.save(function (err, result) {
@@ -44,14 +37,7 @@ router.put('/userput', function (req, res, next) {
     console.log(id);
     var data = {
         username: req.body.username,                          //用户账号
-        userpwd: req.body.userpwd,                            //密码
-        userage: req.body.userage,                            //年龄
-        userphone: req.body.userphone,                        //手机号
-        user_e_mail: req.body.user_e_mail,                    //邮箱
-        userbirthday: req.body.userbirthday,                  //生日
-        usergender: req.body.usergender,                      //性别
-        useradress: req.body.useradress,                      //地址
-        userhead: req.body.userhead,                          //头像
+        password: req.body.password,                            //密码
     };
     User.update({_id: id},{$set:data},function (err, result) {
         if (err) {
@@ -71,7 +57,7 @@ router.put('/userput', function (req, res, next) {
 /**
  * 删除用户信息
  */
-router.delete('/userdelete', passport.authenticate('local'), function (req, res, next) {
+router.delete('/userdelete', passport.authenticate( 'local'), function (req, res, next) {
     var id = req.query.id;
     User.remove({_id: id},function (err, result) {
         if (err) {

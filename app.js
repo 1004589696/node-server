@@ -33,10 +33,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //myWrite start
 
-app.use(session({secret: 'dingcunkuan', cookie: { maxAge: 60000 }}));
+
+require('./routes/loginauth');
+app.use(session({
+    secret: 'keyboard cat'
+}));
 app.use(passport.initialize());
 app.use(passport.session());
-require('./routes/loginauth');
+app.use(flash());
 
 app.use(methodOverride());
 app.all('*', function (req, res, next) {
