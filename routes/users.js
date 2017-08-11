@@ -119,28 +119,6 @@ router.delete('/userdelete', passport.authenticate('bearer', { session: false })
 
 
 
-
-//
-// /**
-//  * 删除用户信息
-//  */
-// router.delete('/userdelete', function (req, res, next) {
-//     var id = req.query.id;
-//     User.remove({_id: id},function (err, result) {
-//         if (err) {
-//             res.json({
-//                 code: '110',
-//                 msg: "Error:" + err
-//             });
-//         } else {
-//             res.json({
-//                 code: '100',
-//                 data: result
-//             });
-//         }
-//     });
-// });
-
 /**
  * 全部分页查询用户列表
  */
