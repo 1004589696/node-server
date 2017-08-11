@@ -17,8 +17,8 @@ var UserSchema = new Schema({
     gender: {type:String},                      //性别
     address: {type:String},                      //地址
     head: {type:String},                        //头像
-    logindate : { type: Date}                       //最近登录时间
+    logindate : { type: Date},                  //最近登录时间
+    createdate : { type: Date}                       //最近登录时间
 });
-
 
 module.exports = mongoose.model('User',UserSchema);

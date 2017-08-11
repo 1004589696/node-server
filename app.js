@@ -35,9 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 require('./routes/loginauth');
-app.use(session({
-    secret: 'keyboard cat'
-}));
+app.use(session({secret: 'zhou', cookie: { maxAge: 200000 }}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());

@@ -1,30 +1,23 @@
 /**
  * Created by Administrator on 2017/8/4.
  */
-var User = require("./schema/user.js");          //schema User
+var passport = require('passport');
+var jwt = require('jwt-simple');
+var User = require("./schema/user.js");
+var LocalStrategy = require('passport-local').Strategy;
+var BearerStrategy = require('passport-http-bearer').Strategy;
 
-var passport = require('passport')
-    , LocalStrategy = require('passport-local').Strategy;
-
-passport.serializeUser(function (user, done) {
-    console.log('hhahahh222'+user);
-    done(null, user.id);
-});
-
-passport.deserializeUser(function (id, done) {
-    console.log('hhahahh'+id);
-    User.findById(id, function(error, user) {
-        console.log('hhahahh'+user);
-        done(error, user);
-    });
-});
-
+/**
+ * passport  Username & Password
+ */
 passport.use('local',new LocalStrategy({
         usernameField: 'username',
         passwordField: 'password',
         passReqToCallback:true
     },
     function(req, username, password, done) {
+        username = req.headers.authorization;
+        password = '123456';
         User.findOne({ username: username }, function(err, user) {
             if (err) { return done(err); }
             if (!user) {
@@ -37,4 +30,26 @@ passport.use('local',new LocalStrategy({
         });
     })
 );
+passport.serializeUser(function (user, done) {
+    done(null, user.id);
+});
+passport.deserializeUser(function (id, done) {
+    User.findById(id, function(error, user) {
+        done(error, user);
+    });
+});
 
+
+
+/**
+ * passport  OAuth 2.0
+ */
+passport.use(new BearerStrategy(
+    function (token, done) {
+        var tokenObj = jwt.decode(token, 'dingcunkuan123456');
+        if ( tokenObj.name != 'dingcunkuan' ) {
+            return done(null, false);
+        }
+        return done(null, {name: 'dingcunkuan', psd: '123'}, {scope: 'read'});
+    }
+));
