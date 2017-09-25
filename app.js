@@ -13,9 +13,8 @@ var methodOverride = require('method-override');
 var faker = require('faker/locale/zh_CN');
 //myWrite End
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-var test = require('./routes/test');
+var userRouter = require('./routes/userRouter');
+var backstageRouter = require('./routes/backstageRouter');
 
 var app = express();
 
@@ -51,12 +50,9 @@ app.all('*', function (req, res, next) {
 });
 //myWrite End
 
+app.use('/user', userRouter);
+app.use('/backstage', backstageRouter);
 
-
-app.use('/users', users);
-
-app.use('/', index);
-app.use('/test', test);
 
 
 // catch 404 and forward to error handler

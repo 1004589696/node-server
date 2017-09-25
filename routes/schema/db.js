@@ -5,10 +5,11 @@
 var mongoose = require('mongoose'),
     DB_URL = 'mongodb://127.0.0.1:27017/node';
 
+var db = {};
 /**
  * 连接
  */
-mongoose.connect(DB_URL,{ useMongoClient: true });
+db.node = mongoose.createConnection(DB_URL,{ useMongoClient: true });
 
 
 /**
@@ -32,4 +33,4 @@ mongoose.connection.on('disconnected', function () {
     console.log('Mongoose connection disconnected');
 });
 
-module.exports = mongoose;
+exports = module.exports = db;
