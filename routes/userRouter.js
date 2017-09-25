@@ -116,7 +116,7 @@ router.post('/login', function (req, res, next) {
  */
 router.get('/userid', function (req, res, next) {
     var id = req.query.id;
-    User.findOne({_id: id}, function (err, result) {
+    User.findOne({_id: id},{ password: 0 }, function (err, result) {
         if (err) {
             res.json({
                 code: '500',
@@ -146,12 +146,12 @@ router.put('/userupdate', function (req, res, next) {
     var id = req.query.id;
     var data = {};
     req.body.username && ( data.username = req.body.username);
-    req.body.e_mail && ( data.username = req.body.e_mail);
-    req.body.age && ( data.username = req.body.age);
-    req.body.birthday && ( data.username = req.body.birthday);
-    req.body.gender && ( data.username = req.body.gender);
-    req.body.address && ( data.username = req.body.address);
-    req.body.head && ( data.username = req.body.head);
+    req.body.e_mail && ( data.e_mail = req.body.e_mail);
+    req.body.age && ( data.age = req.body.age);
+    req.body.birthday && ( data.birthday = req.body.birthday);
+    req.body.gender && ( data.gender = req.body.gender);
+    req.body.address && ( data.address = req.body.address);
+    req.body.head && ( data.head = req.body.head);
     User.update({_id: id}, {$set: data}, function (err, result) {
         if (err) {
             res.json({
