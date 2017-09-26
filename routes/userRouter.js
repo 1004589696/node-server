@@ -6,8 +6,6 @@ var libs = process.cwd() + '/routes/';
 var log = require(libs + 'log')(module);
 var bcrypt = require('bcrypt');
 
-var SALT_WORK_FACTOR = 10;
-
 var User = require("./schema/user.js");          //schema User
 
 
