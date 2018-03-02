@@ -5,10 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-
-var logger1 = require('./common/log4js');
-logger1.info("www");
-
 var index = require('./routes/index');
 var users = require('./routes/users');
 
