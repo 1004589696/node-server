@@ -5,16 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-//myWrite start
-var session = require('express-session');
-var flash = require('express-flash');
-var passport = require('passport');
-var methodOverride = require('method-override');
-var faker = require('faker/locale/zh_CN');
-//myWrite End
-
-var userRouter = require('./routes/userRouter');
-var backstageRouter = require('./routes/backstageRouter');
+var index = require('./routes/index');
+var users = require('./routes/users');
 
 var app = express();
 
@@ -30,30 +22,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//myWrite start
-
-
-require('./routes/loginauth');
-app.use(session({secret: 'zhou', cookie: { maxAge: 200000 }}));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
-
-app.use(methodOverride());
-app.all('*', function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization, platform_type");
-    res.header("X-Powered-By", ' 3.2.1');
-    res.header("Content-Type", "application/json;charset=utf-8");
-    next();
-});
-//myWrite End
-
-app.use('/user', userRouter);
-app.use('/backstage', backstageRouter);
-
-
+app.use('/', index);
+app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
