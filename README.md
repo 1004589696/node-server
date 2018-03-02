@@ -1,4 +1,4 @@
-一、项目建立
+一、项目建立（使用 Express	简单、实用，路由中间件等五脏俱全）
   1.  安装node
   
   2.  全局安装 npm install -g express-generator
