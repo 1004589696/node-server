@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 require('./routes/auth');
 
+var filter = require("./routes/filter");
 var routes = require('./routes/index');
 
 var app = express();
@@ -33,6 +34,9 @@ app.all('*', function (req, res, next) {
   if(req.method=="OPTIONS") res.send(200);/*让options请求快速返回*/
   else  next();
 });
+
+app.use(passport.initialize());// 初始化passport模块
+app.use(filter.routerFilter);
 
 // 设置/routes/index文件为总的路由控制文件
 // 在routes/index文件中再进行统一的路由分发，这样防止app.js中代码过于臃肿
