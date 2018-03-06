@@ -90,3 +90,4 @@
           // 在routes/index文件中再进行统一的路由分发，这样防止app.js中代码过于臃肿
           
           
+  4.  用户注册 登录 密码加密 token 刷新Token

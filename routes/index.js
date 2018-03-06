@@ -4,4 +4,8 @@ module.exports = function(app){
    */
   var user = require('./api/user');
   app.use('/api/user',user);
+
+  var lucydraw = require('./api/lucydraw');
+  app.use('/api/lucydraw',lucydraw);
+  
 };
