@@ -5,8 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+var routes = require('./routes/index');
 
 var app = express();
 
@@ -33,8 +32,9 @@ app.all('*', function (req, res, next) {
   else  next();
 });
 
-app.use('/', index);
-app.use('/users', users);
+// 设置/routes/index文件为总的路由控制文件
+// 在routes/index文件中再进行统一的路由分发，这样防止app.js中代码过于臃肿
+routes(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

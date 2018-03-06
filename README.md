@@ -74,4 +74,19 @@
          logger1.info("www");
     
   
-  3.  log4js 日志
+  3.  操作数据库
+     
+          安装 mongodb 到 C:\Program Files(自定义亦可)
+  
+          启动 mongodb  命令框输入：cd "C:\Program Files\MongoDB\Server\3.4\bin" 和 mongod.exe --dbpath "C:\data\db"
+       
+          安装  mongoose 操作 npm install mongoose --save
+       
+          建立多个连接库，例如：在根目录下建里mongoose文件夹，并创建db.js(连接)
+       
+          建立schema数据模型，定义表结构 例如：在根目录下建里schema文件夹，并创建user.js(用户信息表)（bcrypt密码加密）
+          
+          // 在 routes 建立 index.js 文件为总的路由控制文件
+          // 在routes/index文件中再进行统一的路由分发，这样防止app.js中代码过于臃肿
+          
+          
